@@ -116,3 +116,84 @@ const pasarPersonajesToArchivo = async () => {
 
 // Test pasar personajes a Archivo
 // pasarPersonajesToArchivo();
+
+
+// PUNTO 2 - Metodos sobre el archivo JSON
+
+
+// leer el archivo y devolver el array
+const leerPersonajes = async () => {
+  try {
+    const contenido = await fs.readFile('personajes.json', 'utf-8');
+    return JSON.parse(contenido);
+  } catch (error) {
+    console.error('Error al leer el archivo:', error);
+  }
+};
+
+// guardar el array en el archivo
+const guardarPersonajes = async (personajes) => {
+  try {
+    await fs.writeFile('personajes.json', JSON.stringify(personajes, null, 2));
+  } catch (error) {
+    console.error('Error al guardar el archivo:', error);
+  }
+};
+
+// 2.a) Agregar un personaje al final del archivo
+const agregarPersonajeAlFinal = async (nuevoPersonaje) => {
+  try {
+    const personajes = await leerPersonajes();
+    personajes.push(nuevoPersonaje); // push agrega al final
+    await guardarPersonajes(personajes);
+    console.log('Personaje agregado al final:', nuevoPersonaje);
+  } catch (error) {
+    console.error('Error en agregarPersonajeAlFinal:', error);
+  }
+};
+
+// 2.b) Agregar 2 personajes al inicio del archivo
+const agregarPersonajesAlInicio = async (personaje1, personaje2) => {
+  try {
+    const personajes = await leerPersonajes();
+    personajes.unshift(personaje1, personaje2); // unshift agrega al inicio
+    await guardarPersonajes(personajes);
+    console.log('Personajes agregados al inicio:', personaje1, personaje2);
+  } catch (error) {
+    console.error('Error en agregarPersonajesAlInicio:', error);
+  }
+};
+
+ 
+// ejemplos
+
+
+const personajeNuevo = {
+  firstName: "Alice",
+  lastName: "Hardyng",
+  fullName: "Alice Hardyng",
+  title: "Reina del Valle",
+  family: "House Hardyng",
+  image: "alice-hardyng.jpeg"
+};
+
+const personajeInicio1 = {
+  firstName: "Duncan",
+  lastName: "Gryz",
+  fullName: "Duncan Gryz",
+  title: "Sir Duncan",
+  family: "House gryz",
+  image: "duncan-gryz.jpeg"
+};
+
+const personajeInicio2 = {
+  firstName: "Aegon",
+  lastName: "Targaryen",
+  fullName: "Aegon Targaryen ",
+  title: "Aegon el Improbable",
+  family: "House Targaryen",
+  image: "eron-targaryen.jpeg"
+};
+
+agregarPersonajeAlFinal(personajeNuevo);
+agregarPersonajesAlInicio(personajeInicio1, personajeInicio2);
