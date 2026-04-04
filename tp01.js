@@ -113,6 +113,52 @@ const pasarPersonajesToArchivo = async () => {
       console.error('Error al guardar los personajes en el archivo:', error);
     }
 };
+// 2.c) Eliminar el primer personaje, mostrar en consola el elemento eliminado.
+const eliminarPrimerPersonaje = async () => {
+    try {
+        const data = await fs.readFile('personajes.json', 'utf-8');
+        let personajes = JSON.parse(data);
 
+        const personajeEliminado = personajes.shift();
+
+        console.log("--- Punto 2.C: Personaje Eliminado ---");
+        console.log(personajeEliminado);
+
+        await fs.writeFile('personajes.json', JSON.stringify(personajes, null, 2));
+    } catch (error) {
+        console.error("Error al ejecutar el punto 2.C:", error);
+    }
+};
+
+// 2.d) Crear un nuevo archivo que solo contenga los: id y nombres de los personajes.
+const crearArchivoNombresIds = async () => {
+    try {
+        const data = await fs.readFile('personajes.json', 'utf-8');
+        const personajes = JSON.parse(data);
+
+        const personajesSimplificados = personajes.map(personaje => {
+            return {
+                id: personaje.id,
+                nombre: personaje.fullName
+            };
+        });
+
+        await fs.writeFile('personajes_filtrados.json', JSON.stringify(personajesSimplificados, null, 2));
+        
+        console.log("--- Punto 2.D: Archivo Creado ---");
+        console.log("Se generó correctamente 'personajes_filtrados.json'.");
+    } catch (error) {
+        console.error("Error al ejecutar el punto 2.D:", error);
+    }
+};
+
+const ejecutarMisPuntos = async () => {
+    await pasarPersonajesToArchivo();
+    
+    await eliminarPrimerPersonaje();
+    await crearArchivoNombresIds();
+};
+
+ejecutarMisPuntos();
 // Test pasar personajes a Archivo
 // pasarPersonajesToArchivo();
