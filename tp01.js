@@ -116,3 +116,44 @@ const pasarPersonajesToArchivo = async () => {
 
 // Test pasar personajes a Archivo
 // pasarPersonajesToArchivo();
+
+
+// 2.e - Ale
+// Ordenar por nombre decreciente y lo mostramos en una tabla por consola.
+ 
+const ordenarYMostrarPersonajes = async () => {
+    try {
+        // datos del punto anterior
+        const data = await fs.readFile('personajes_filtrados.json', 'utf-8');
+        let personajes = JSON.parse(data);
+
+        // Aca esta lo que piden de sort() con lógica decreciente
+        personajes.sort((a, b) => {
+            if (a.nombre < b.nombre) return 1;
+            if (a.nombre > b.nombre) return -1;
+            return 0;
+        });
+
+        console.log("--- Punto 2.E: Listado Ordenado Decrecientemente (Z-A) ---");
+        console.table(personajes);
+
+    } catch (error) {
+        console.error("Error al ejecutar el punto 2.E:", error);
+    }
+};
+
+// Se trabaja en secuencia los puntos
+const ejecutarMisPuntos = async () => {
+    try {
+        await eliminarPrimerPersonaje();   
+        await crearArchivoNombresIds();    
+        
+        // Mi parte - Ale
+        await ordenarYMostrarPersonajes(); 
+        
+    } catch (error) {
+        console.error("Error en el flujo de ejecución:", error);
+    }
+};
+
+ejecutarMisPuntos();
