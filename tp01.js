@@ -66,7 +66,7 @@ const eliminarYFiltrar = async () => {
     }
 };
 
-// PUNTO 2.e - Orden y Salida de Datod
+// PUNTO 2.e - Orden y Salida de Datos
 const ordenarYMostrarPersonajes = async () => {
     try {
         const data = await fs.readFile('personajes_filtrados.json', 'utf-8');
